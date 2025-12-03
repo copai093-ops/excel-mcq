@@ -91,35 +91,70 @@
   <center><button onclick="submitAnswers()">Submit Test</button></center>
 
   <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzzif34BqrFsnaKPnGYMfPGxbX9bDld13saJTpswWMy62BpQ5PNPre8WmaGz-hvHBp5/exec";
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzzif34BqrFsnaKPnGYMfPGxbX9bDld13saJTpswWMy62BpQ5PNPre8WmaGz-hvHBp5/exec";
 
-    function submitAnswers() {
-      const name = document.getElementById("name").value.trim();
-      if (!name) { alert("Pehle naam likho bhai!"); return; }
+  // Timer setup
+  let timeLeft = 2 * 60; // 2 minutes in seconds
+  const timerDiv = document.createElement('div');
+  timerDiv.style.textAlign = 'center';
+  timerDiv.style.fontSize = '20px';
+  timerDiv.style.marginBottom = '20px';
+  document.body.insertBefore(timerDiv, document.body.children[2]); // name input ke baad
 
-      const answers = {
-        name: name,
-        q1: document.querySelector('input[name="q1"]:checked')?.value || "",
-        q2: document.querySelector('input[name="q2"]:checked')?.value || "",
-        q3: document.querySelector('input[name="q3"]:checked')?.value || "",
-        q4: document.querySelector('input[name="q4"]:checked')?.value || "",
-        q5: document.querySelector('input[name="q5"]:checked')?.value || "",
-        q6: document.querySelector('input[name="q6"]:checked')?.value || "",
-        q7: document.querySelector('input[name="q7"]:checked')?.value || "",
-        q8: document.querySelector('input[name="q8"]:checked')?.value || "",
-        q9: document.querySelector('input[name="q9"]:checked')?.value || "",
-        q10: document.querySelector('input[name="q10"]:checked')?.value || ""
-      };
-
-      fetch(WEB_APP_URL, {
-        method: "POST",
-        body: JSON.stringify(answers),
-        headers: {"Content-Type": "text/plain;charset=utf-8"},
-        mode: "no-cors"
-      })
-      .then(() => alert("Test submit ho gaya! Data sheet mein aa gaya"))
-      .catch(() => alert("Submit ho gaya (no-cors mode)"));
+  const updateTimer = () => {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    timerDiv.innerHTML = `Time Left: ${minutes}:${seconds < 10 ? '0'+seconds : seconds}`;
+    if (timeLeft <= 0) {
+      submitAnswers(true); // auto-submit
+      clearInterval(timerInterval);
     }
-  </script>
+    timeLeft--;
+  }
+
+  const timerInterval = setInterval(updateTimer, 1000);
+  updateTimer();
+
+  function submitAnswers(auto=false) {
+    const name = document.getElementById("name").value.trim();
+    if (!name) { alert("Pehle naam likho bhai!"); return; }
+
+    const answers = {
+      name: name,
+      q1: document.querySelector('input[name="q1"]:checked')?.value || "",
+      q2: document.querySelector('input[name="q2"]:checked')?.value || "",
+      q3: document.querySelector('input[name="q3"]:checked')?.value || "",
+      q4: document.querySelector('input[name="q4"]:checked')?.value || "",
+      q5: document.querySelector('input[name="q5"]:checked')?.value || "",
+      q6: document.querySelector('input[name="q6"]:checked')?.value || "",
+      q7: document.querySelector('input[name="q7"]:checked')?.value || "",
+      q8: document.querySelector('input[name="q8"]:checked')?.value || "",
+      q9: document.querySelector('input[name="q9"]:checked')?.value || "",
+      q10: document.querySelector('input[name="q10"]:checked')?.value || ""
+    };
+
+    const submitBtn = document.querySelector('button');
+    if (!auto) submitBtn.innerText = "Aapka test submit ho raha hai...";
+
+    fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify(answers),
+      headers: {"Content-Type": "text/plain;charset=utf-8"},
+      mode: "no-cors"
+    })
+    .then(() => {
+      clearInterval(timerInterval);
+      alert("Dhanyawaad! Test submit ho gaya.");
+      submitBtn.innerText = "Test Submitted";
+      submitBtn.disabled = true;
+    })
+    .catch(() => {
+      clearInterval(timerInterval);
+      alert("Dhanyawaad! Test submit ho gaya (no-cors mode).");
+      submitBtn.innerText = "Test Submitted";
+      submitBtn.disabled = true;
+    });
+  }
+</script>
 </body>
 </html>
