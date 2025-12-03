@@ -6,13 +6,13 @@
 <title>Excel MCQ Test</title>
 <style>
   body {font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 20px;}
-  .box {background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 700px; text-align: center;}
+  .box {background: white; padding: 50px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 700px; text-align: center;}
   h1 {color: #2c3e50; margin-bottom: 30px;}
   input {width: 100%; padding: 15px; margin: 15px 0; border-radius: 10px; border: 1px solid #ccc; font-size: 18px;}
   button {width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 20px; cursor: pointer;}
   button:hover {background: #1e8449;}
   .hide {display: none;}
-  .qbox {margin: 20px 0; font-size: 19px; font-weight: bold;}
+  .qbox {margin: 30px 0; font-size: 19px; font-weight: bold;}
   .opt {display: block; background: #f8f9fa; padding: 15px; margin: 12px 0; border-radius: 10px; text-align: left; cursor: pointer;}
   .opt input {margin-right: 12px;}
 </style>
@@ -21,7 +21,7 @@
 
 <div id="start" class="box">
   <h1>Excel MCQ Test (30 प्रश्न)</h1>
-  <p>कोई टाइम लिमिट नहीं – कभी भी दे सकते हो</p>
+  <p>कोई टाइम लिमिट नहीं</p>
   <input type="text" id="naam" placeholder="अपना पूरा नाम लिखें" required>
   <button onclick="startTest()">टेस्ट शुरू करें</button>
 </div>
@@ -30,14 +30,15 @@
   <h2>प्रश्न <span id="no">1</span>/30</h2>
   <div class="qbox" id="question"></div>
   <div id="options"></div>
+  <br>
   <button onclick="next()">अगला प्रश्न →</button>
 </div>
 
-<div id="result" class="box hide">
-  <h1>धन्यवाद!</h1>
-  <p>नाम: <b id="finalName"></b></p>
-  <p>स्कोर: <b id="score"></b>/30</p>
-  <p>प्रतिशत: <b id="percent"></b>%</p>
+<!-- Result screen ab nahi dikhega — sirf thank you -->
+<div id="thankyou" class="box hide">
+  <h1 style="color:#27ae60">धन्यवाद!</h1>
+  <h2>आपका टेस्ट सफलतापूर्वक जमा हो गया</h2>
+  <p>परिणाम आपको जल्द ही बताया जाएगा</p>
 </div>
 
 <script>
@@ -80,7 +81,7 @@ let i = 0, score = 0, name = "", answers = [];
 
 function startTest() {
   name = document.getElementById("naam").value.trim();
-  if (!name) return alert("नाम तो लिखो भाई!");
+  if (!name) return alert("नाम लिखना जरूरी है!");
   document.getElementById("start").classList.add("hide");
   document.getElementById("quiz").classList.remove("hide");
   showQ();
@@ -98,7 +99,7 @@ function showQ() {
 
 function next() {
   let sel = document.querySelector('input[name="a"]:checked');
-  if (!sel) return alert("विकल्प चुनो!");
+  if (!sel) return alert("कोई विकल्प चुनो!");
   answers.push(sel.value);
   if (parseInt(sel.value) === questions[i].a) score++;
   i++;
@@ -121,10 +122,7 @@ function submit() {
   });
 
   document.getElementById("quiz").classList.add("hide");
-  document.getElementById("finalName").innerText = name;
-  document.getElementById("score").innerText = score + "/30";
-  document.getElementById("percent").innerText = (score*100/30).toFixed(1);
-  document.getElementById("result").classList.remove("hide");
+  document.getElementById("thankyou").classList.remove("hide");   // ← सिर्फ धन्यवाद दिखेगा
 }
 </script>
 </body>
