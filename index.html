@@ -15,6 +15,19 @@
     #timer {text-align: center; font-size: 20px; margin-bottom: 20px;}
   </style>
 </head>
+
+<!-- 🔐 PASSWORD PROTECTION START -->
+<script>
+  const correctPassword = "excel123";  // <-- Yaha apna password likho
+  const entered = prompt("Test access karne ke liye password dalo:");
+
+  if (entered !== correctPassword) {
+    document.write("<h2 style='text-align:center;margin-top:50px;color:red;'>❌ Incorrect Password</h2>");
+    throw new Error("Access Denied");
+  }
+</script>
+<!-- 🔐 PASSWORD PROTECTION END -->
+
 <body>
   <h1>Excel MCQ Test</h1>
   <input type="text" id="name" placeholder="Apna pura naam likho" required>
