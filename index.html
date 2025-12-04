@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Excel MCQ Test - Class</title>
-
   <style>
     body {font-family: Arial; background: #e8f4f8; padding: 20px; max-width: 900px; margin: auto;}
     h1 {text-align: center; color: #2c3e50;}
@@ -15,26 +14,12 @@
     button:hover {background: #219653;}
     #timer {text-align: center; font-size: 20px; margin-bottom: 20px;}
   </style>
-
-  <!-- 🔐 PASSWORD PROTECTION START -->
-  <script>
-    const correctPassword = "nsti";  // <-- apna password
-    const entered = prompt("Test access karne ke liye password dalo:");
-
-    if (entered !== correctPassword) {
-      document.write("<h2 style='text-align:center;margin-top:50px;color:red;'>❌ Incorrect Password</h2>");
-      throw new Error("Access Denied"); // page yahi rok jaayega
-    }
-  </script>
-  <!-- 🔐 PASSWORD PROTECTION END -->
-
 </head>
-
 <body>
   <h1>Excel MCQ Test</h1>
   <input type="text" id="name" placeholder="Apna pura naam likho" required>
   <div id="timer">Time Left: 2:00</div>
-
+  
   <div class="q"><b>Q1.</b> Excel file ka default extension kya hai?<br>
     <label><input type="radio" name="q1" value="A"> .xlsx</label>
     <label><input type="radio" name="q1" value="B"> .xls</label>
@@ -153,6 +138,5 @@
     });
   }
   </script>
-
 </body>
 </html>
