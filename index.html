@@ -1,203 +1,244 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Excel MCQ Test - Final Working</title>
-  <style>
-    body {font-family: Arial; background: #e8f4f8; padding: 20px; margin: 0;}
-    .container {max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.2);}
-    h1 {text-align: center; color: #2c3e50;}
-    input[type="password"], input[type="text"] {width: 100%; padding: 15px; font-size: 18px; margin: 15px 0; border-radius: 8px; border: 1px solid #ddd;}
-    .hidden {display: none !important;}
-    button {background: #27ae60; color: white; padding: 15px 50px; font-size: 20px; border: none; border-radius: 8px; cursor: pointer;}
-    button:hover {background: #219653;}
-    #timer {text-align: center; font-size: 26px; font-weight: bold; color: #e74c3c; margin: 20px 0;}
-    .q {background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 10px; border-left: 6px solid #3498db;}
-    label {display: block; margin: 12px 0; font-size: 17px; cursor: pointer;}
-    .correct {color: green; font-weight: bold;}
-    .wrong {color: red; font-weight: bold;}
-    .not-attempted {color: orange; font-weight: bold;}
-    #errorMsg {color: red; text-align: center; font-weight: bold; margin-top: 10px;}
-  </style>
-</head>
-<body>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel MCQ Test - Final Working</title>
 
+<style>
+body {font-family: Arial; background: #e8f4f8; padding: 20px; margin: 0;}
+.container {max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.2);}
+h1 {text-align: center; color: #2c3e50;}
+input[type="password"], input[type="text"] {
+    width: 70%; padding: 15px; font-size: 18px; margin: 15px 0;
+    border-radius: 8px; border: 1px solid #ddd;
+}
+button {
+    background: #27ae60; color: white; padding: 15px 35px;
+    font-size: 18px; border: none; border-radius: 8px; cursor: pointer;
+}
+button:hover {background: #219653;}
+.hidden {display: none;}
+#timer {text-align: center; font-size: 26px; font-weight: bold; color: #e74c3c; margin: 20px 0;}
+.q {background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 10px; border-left: 6px solid #3498db;}
+label {display: block; margin: 12px 0; font-size: 17px;}
+.correct {color: green; font-weight: bold;}
+.wrong {color: red; font-weight: bold;}
+.not-attempted {color: orange; font-weight: bold;}
+#nameBox {display: flex; gap: 10px; align-items: center;}
+#errorMsg {color: red; text-align: center; font-weight: bold; margin-top: 10px;}
+</style>
+</head>
+
+<body>
 <div class="container">
 
-  <!-- PASSWORD SCREEN - SABSE PEHLE DIKHEGA -->
-  <div id="passwordScreen">
+<!-- LOGIN SCREEN -->
+<div id="passwordScreen">
     <h1>Excel MCQ Test</h1>
     <p style="text-align:center; font-size:19px;">Test shuru karne ke liye password daaliye</p>
-    <input type="password" id="passInput" placeholder="Password yahan likhein">
-    <center><button onclick="checkPassword()">Test Shuru Karein</button></center>
-    <p id="errorMsg"></p>
-  </div>
 
-  <!-- TEST SCREEN -->
-  <div id="testScreen" class="hidden">
+    <input type="password" id="passInput" placeholder="Password yahan likhein">
+    <center><button onclick="checkPassword()">OK</button></center>
+
+    <p id="errorMsg"></p>
+</div>
+
+<!-- TEST + NAME SCREEN -->
+<div id="testScreen" class="hidden">
     <h1>Excel MCQ Test</h1>
-    <input type="text" id="name" placeholder="Apna pura naam likhein" required>
+
+    <div id="nameBox">
+        <input type="text" id="name" placeholder="Apna naam likhein" required>
+        <button onclick="lockName()">OK</button>
+    </div>
+
     <div id="timer">Time Left: 2:00</div>
 
-    <div class="q"><b>Q1.</b> Excel file ka default extension kya hai?<br>
-      <label><input type="radio" name="q1" value="A"> A) .xlsx</label>
-      <label><input type="radio" name="q1" value="B"> B) .xls</label>
-      <label><input type="radio" name="q1" value="C"> C) .csv</label>
-      <label><input type="radio" name="q1" value="D"> D) .xlsm</label>
-    </div>
-    <div class="q"><b>Q2.</b> Excel mein cell address ka example?<br>
-      <label><input type="radio" name="q2" value="A"> A) A1</label>
-      <label><input type="radio" name="q2" value="B"> B) $A$1</label>
-      <label><input type="radio" name="q2" value="C"> C) Both A & B</label>
-      <label><input type="radio" name="q2" value="D"> D) None</label>
-    </div>
-    <div class="q"><b>Q3.</b> SUM function ka use?<br>
-      <label><input type="radio" name="q3" value="A"> A) Numbers add karne ke liye</label>
-      <label><input type="radio" name="q3" value="B"> B) Text join karne ke liye</label>
-      <label><input type="radio" name="q3" value="C"> C) Average nikalne ke liye</label>
-      <label><input type="radio" name="q3" value="D"> D) None</label>
-    </div>
-    <div class="q"><b>Q4.</b> VLOOKUP ka full form?<br>
-      <label><input type="radio" name="q4" value="A"> A) Vertical Lookup</label>
-      <label><input type="radio" name="q4" value="B"> B) Value Lookup</label>
-      <label><input type="radio" name="q4" value="C"> C) Visual Lookup</label>
-      <label><input type="radio" name="q4" value="D"> D) None</label>
-    </div>
-    <div class="q"><b>Q5.</b> Pivot Table banane ke liye shortcut?<br>
-      <label><input type="radio" name="q5" value="A"> A) Alt + N + V</label>
-      <label><input type="radio" name="q5" value="B"> B) Ctrl + P</label>
-      <label><input type="radio" name="q5" value="C"> C) Alt + D + P</label>
-      <label><input type="radio" name="q5" value="D"> D) None</label>
-    </div>
-    <div class="q"><b>Q6.</b> Conditional Formatting kahan milta hai?<br>
-      <label><input type="radio" name="q6" value="A"> A) Home Tab</label>
-      <label><input type="radio" name="q6" value="B"> B) Insert Tab</label>
-      <label><input type="radio" name="q6" value="C"> C) Data Tab</label>
-      <label><input type="radio" name="q6" value="D"> D) View Tab</label>
-    </div>
-    <div class="q"><b>Q7.</b> Chart insert karne ka shortcut?<br>
-      <label><input type="radio" name="q7" value="A"> A) F11</label>
-      <label><input type="radio" name="q7" value="B"> B) F10</label>
-      <label><input type="radio" name="q7" value="C"> C) Alt + F1</label>
-      <label><input type="radio" name="q7" value="D"> D) Both A & C</label>
-    </div>
-    <div class="q"><b>Q8.</b> Freeze Panes ka use?<br>
-      <label><input type="radio" name="q8" value="A"> A) Rows/Columns fix karne ke liye</label>
-      <label><input type="radio" name="q8" value="B"> B) Data sort karne ke liye</label>
-      <label><input type="radio" name="q8" value="C"> C) Filter lagane ke liye</label>
-      <label><input type="radio" name="q8" value="D"> D) None</label>
-    </div>
-    <div class="q"><b>Q9.</b> COUNT function kitne cells count karta hai?<br>
-      <label><input type="radio" name="q9" value="A"> A) Numbers wale</label>
-      <label><input type="radio" name="q9" value="B"> B) Text wale</label>
-      <label><input type="radio" name="q9" value="C"> C) Sab</label>
-      <label><input type="radio" name="q9" value="D"> D) Blank</label>
-    </div>
-    <div class="q"><b>Q10.</b> Excel mein maximum columns kitne hote hain?<br>
-      <label><input type="radio" name="q10" value="A"> A) 16384</label>
-      <label><input type="radio" name="q10" value="B"> B) 1024</label>
-      <label><input type="radio" name="q10" value="C"> C) 256</label>
-      <label><input type="radio" name="q10" value="D"> D) 65536</label>
+    <!-- MCQ QUESTIONS -->
+    <div class="q"><b>Q1.</b> Excel file ka default extension kya hai?
+        <label><input type="radio" name="q1" value="A"> .xlsx</label>
+        <label><input type="radio" name="q1" value="B"> .xls</label>
+        <label><input type="radio" name="q1" value="C"> .csv</label>
+        <label><input type="radio" name="q1" value="D"> .xlsm</label>
     </div>
 
-    <center><button onclick="submitTest()">Submit Test</button></center>
-  </div>
+    <div class="q"><b>Q2.</b> Excel mein cell address ka example?
+        <label><input type="radio" name="q2" value="A"> A1</label>
+        <label><input type="radio" name="q2" value="B"> $A$1</label>
+        <label><input type="radio" name="q2" value="C"> Both A & B</label>
+        <label><input type="radio" name="q2" value="D"> None</label>
+    </div>
 
-  <!-- RESULT SCREEN -->
-  <div id="resultScreen" class="hidden">
+    <div class="q"><b>Q3.</b> SUM function ka use?
+        <label><input type="radio" name="q3" value="A"> Numbers add karne ke liye</label>
+        <label><input type="radio" name="q3" value="B"> Text join karne ke liye</label>
+        <label><input type="radio" name="q3" value="C"> Average nikalne ke liye</label>
+        <label><input type="radio" name="q3" value="D"> None</label>
+    </div>
+
+    <div class="q"><b>Q4.</b> VLOOKUP ka full form?
+        <label><input type="radio" name="q4" value="A"> Vertical Lookup</label>
+        <label><input type="radio" name="q4" value="B"> Value Lookup</label>
+        <label><input type="radio" name="q4" value="C"> Visual Lookup</label>
+        <label><input type="radio" name="q4" value="D"> None</label>
+    </div>
+
+    <div class="q"><b>Q5.</b> Pivot Table shortcut?
+        <label><input type="radio" name="q5" value="A"> Alt + N + V</label>
+        <label><input type="radio" name="q5" value="B"> Ctrl + P</label>
+        <label><input type="radio" name="q5" value="C"> Alt + D + P</label>
+        <label><input type="radio" name="q5" value="D"> None</label>
+    </div>
+
+    <div class="q"><b>Q6.</b> Conditional Formatting kahan hota hai?
+        <label><input type="radio" name="q6" value="A"> Home Tab</label>
+        <label><input type="radio" name="q6" value="B"> Insert Tab</label>
+        <label><input type="radio" name="q6" value="C"> Data Tab</label>
+        <label><input type="radio" name="q6" value="D"> View Tab</label>
+    </div>
+
+    <div class="q"><b>Q7.</b> Chart insert shortcut?
+        <label><input type="radio" name="q7" value="A"> F11</label>
+        <label><input type="radio" name="q7" value="B"> F10</label>
+        <label><input type="radio" name="q7" value="C"> Alt + F1</label>
+        <label><input type="radio" name="q7" value="D"> Both A & C</label>
+    </div>
+
+    <div class="q"><b>Q8.</b> Freeze Panes ka use?
+        <label><input type="radio" name="q8" value="A"> Rows/Columns fix karne ke liye</label>
+        <label><input type="radio" name="q8" value="B"> Sort karne ke liye</label>
+        <label><input type="radio" name="q8" value="C"> Filter lagane ke liye</label>
+        <label><input type="radio" name="q8" value="D"> None</label>
+    </div>
+
+    <div class="q"><b>Q9.</b> COUNT function kya count karta hai?
+        <label><input type="radio" name="q9" value="A"> Numbers</label>
+        <label><input type="radio" name="q9" value="B"> Text</label>
+        <label><input type="radio" name="q9" value="C"> Sab</label>
+        <label><input type="radio" name="q9" value="D"> Blank</label>
+    </div>
+
+    <div class="q"><b>Q10.</b> Excel me max columns?
+        <label><input type="radio" name="q10" value="A"> 16384</label>
+        <label><input type="radio" name="q10" value="B"> 1024</label>
+        <label><input type="radio" name="q10" value="C"> 256</label>
+        <label><input type="radio" name="q10" value="D"> 65536</label>
+    </div>
+
+    <center><button onclick="submitTest()">Submit</button></center>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="resultScreen" class="hidden">
     <h2>Test Complete!</h2>
     <h3 id="finalScore"></h3>
     <div id="detailedResult"></div>
-  </div>
+</div>
 
 </div>
 
 <script>
-// PASSWORD (CHANGE KARO YAHAN)
-const TEST_PASSWORD = "12345";   // ←←← Yahan apna password daal do
+// PASSWORD FIX
+const TEST_PASSWORD = "12345";
 
-// Correct Answers
+// Correct answers
 const correctAnswers = ["A","C","A","A","A","A","D","A","A","A"];
 const explanations = [
-  "Default extension .xlsx hai", "Dono A1 aur $A$1 cell address hote hain", "SUM numbers add karta hai",
-  "VLOOKUP = Vertical Lookup", "Alt + N + V se Pivot Table", "Home Tab mein Conditional Formatting",
-  "F11 aur Alt+F1 dono chart banate hain", "Freeze Panes rows/columns fix karta hai",
-  "COUNT sirf numbers count karta hai", "16,384 columns (XFD) tak"
+    "Default extension .xlsx hoti hai.",
+    "A1 aur $A$1 dono cell address hain.",
+    "SUM ka use add karne ke liye hota hai.",
+    "Full form Vertical Lookup.",
+    "Pivot Table shortcut Alt + N + V.",
+    "Conditional Formatting → Home Tab.",
+    "Charts → F11 ya Alt+F1.",
+    "Freeze Panes rows/columns fix karta hai.",
+    "COUNT sirf numbers count karta hai.",
+    "Excel me 16384 columns hote hain."
 ];
 
-// Yeh function page load hone pe chalega
-window.onload = function() {
-  // Agar pehle se test de chuka hai to direct result ya block
-  if (localStorage.getItem("excelTestDone") === "true") {
-    document.getElementById("passwordScreen").innerHTML = "<h2>Aap already test de chuke hain!<br>Naya device ya incognito mode use karein.</h2>";
-    return;
-  }
-};
-
-// Password check
-function checkPassword() {
-  const pass = document.getElementById("passInput").value;
-  if (pass === TEST_PASSWORD) {
-    document.getElementById("passwordScreen").classList.add("hidden");
-    document.getElementById("testScreen").classList.remove("hidden");
-    startTimer();
-  } else {
-    document.getElementById("errorMsg").innerText = "Galat Password!";
-  }
-}
-
-// Timer
 let timeLeft = 120;
 let timerInterval;
-function startTimer() {
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    let m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-    let s = String(timeLeft % 60).padStart(2, '0');
-    document.getElementById("timer").innerText = `Time Left: ${m}:${s}`;
-    if (timeLeft <= 0) submitTest(true);
-  }, 1000);
+let testStarted = false;
+
+function checkPassword() {
+    if (document.getElementById("passInput").value === TEST_PASSWORD) {
+        document.getElementById("passwordScreen").classList.add("hidden");
+        document.getElementById("testScreen").classList.remove("hidden");
+    } else {
+        document.getElementById("errorMsg").innerText = "Galat Password!";
+    }
 }
 
-// Submit
-function submitTest(auto = false) {
-  clearInterval(timerInterval);
-  localStorage.setItem("excelTestDone", "true");  // Block future attempts
+function lockName() {
+    const name = document.getElementById("name").value.trim();
+    if (name === "") {
+        alert("Naam likhna zaroori hai!");
+        return;
+    }
+    document.getElementById("name").disabled = true;
+    testStarted = true;
+    startTimer();
+}
 
-  const name = document.getElementById("name").value.trim() || "Student";
-  let score = 0;
-  let userAns = [];
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        let m = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+        let s = String(timeLeft % 60).padStart(2, "0");
+        document.getElementById("timer").innerText = `Time Left: ${m}:${s}`;
+        if (timeLeft <= 0) submitTest();
+    }, 1000);
+}
 
-  for (let i = 1; i <= 10; i++) {
-    const sel = document.querySelector(`input[name="q${i}"]:checked`);
-    const ans = sel ? sel.value : "Not Attempted";
-    userAns.push(ans);
-    if (ans === correctAnswers[i-1]) score++;
-  }
+function submitTest() {
+    clearInterval(timerInterval);
 
-  // Google Sheet bhejo (optional)
-  fetch("https://script.google.com/macros/s/AKfycbzzif34BqrFsnaKPnGYMfPGxbX9bDld13saJTpswWMy62BpQ5PNPre8WmaGz-hvHBp5/exec", {
-    method: "POST",
-    body: JSON.stringify({name: name, score: score+"/10"}),
-    mode: "no-cors"
-  });
+    const name = document.getElementById("name").value;
+    let score = 0;
+    let userAns = [];
 
-  // Result dikhao
-  document.getElementById("testScreen").classList.add("hidden");
-  document.getElementById("resultScreen").classList.remove("hidden");
-  document.getElementById("finalScore").innerHTML = `<b>${name}</b> → Score: <span style="color:green;font-size:30px">${score}/10</span>`;
+    for (let i = 1; i <= 10; i++) {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        const ans = sel ? sel.value : "Not Attempted";
+        userAns.push(ans);
+        if (ans === correctAnswers[i - 1]) score++;
+    }
 
-  const res = document.getElementById("detailedResult");
-  res.innerHTML = "<h3>Detailed Answers:</h3>";
-  correctAnswers.forEach((c, i) => {
-    const u = userAns[i];
-    const col = u === c ? "correct" : (u === "Not Attempted" ? "not-attempted" : "wrong");
-    res.innerHTML += `<div style="background:#fff;padding:15px;margin:10px 0;border-radius:8px;">
-      <b>Q${i+1}:</b> Aapka → <span class="${col}">${u}</span> | Sahi → <span class="correct">${c}</span><br>
-      <small>${explanations[i]}</small>
-    </div>`;
-  });
+    // SEND FULL DATA TO GOOGLE SHEETS
+    fetch("https://script.google.com/macros/s/AKfycbzzif34BqrFsnaKPnGYMfPGxbX9bDld13saJTpswWMy62BpQ5PNPre8WmaGz-hvHBp5/exec", {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({
+            name: name,
+            score: score,
+            timeSpent: (120 - timeLeft) + " sec",
+            answers: userAns
+        })
+    });
+
+    document.getElementById("testScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+
+    document.getElementById("finalScore").innerHTML = `<b>${name}</b> → Score: 
+        <span style="color:green;font-size:30px">${score}/10</span>`;
+
+    let resultHTML = "<h3>Detailed Answers:</h3>";
+
+    userAns.forEach((ans, i) => {
+        let cls = ans === correctAnswers[i] ? "correct"
+                : ans === "Not Attempted" ? "not-attempted" : "wrong";
+
+        resultHTML += `
+        <div style="background:#fff;padding:15px;margin:10px;border-radius:8px;">
+            <b>Q${i+1}:</b>
+            Aapka → <span class="${cls}">${ans}</span> |
+            Sahi → <span class="correct">${correctAnswers[i]}</span><br>
+            <small>${explanations[i]}</small>
+        </div>`;
+    });
+
+    document.getElementById("detailedResult").innerHTML = resultHTML;
 }
 </script>
 
